@@ -13,4 +13,9 @@ describe('Test endpoint responses', () => {
     const response = await request.get('/api');
     expect(response.status).toBe(200);
   });
+
+  it('Gets status 400 Bad request when missing required params', async () => {
+    const response = await request.get('/api/image');
+    expect(response.status).toBe(400);
+  });
 });
