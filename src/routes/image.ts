@@ -1,23 +1,8 @@
 import express from 'express';
+import requestValidation from '../middleware/requestValidation';
 const image = express.Router();
 
-image.get('/', (req, res) => {
-  const filename = req.query.filename as string;
-  const width = Number(req.query.width) as number;
-  const heigh = Number(req.query.heigh) as number;
-
-  if (
-    typeof filename === 'undefined' ||
-    filename.length === 0 ||
-    typeof width === 'undefined' ||
-    isNaN(width) ||
-    typeof heigh === 'undefined' ||
-    isNaN(heigh)
-  ) {
-    res.status(400).send('Bad request: missing parameters');
-    return;
-  }
-
+image.get('/', requestValidation, (req, res) => {
   res.send('Image resize endpoint');
 });
 

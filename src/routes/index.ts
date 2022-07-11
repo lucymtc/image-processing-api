@@ -1,10 +1,10 @@
 import express from 'express';
 import image from './image';
-import apiSpec from '../apiSpec';
+import apiSpecification from '../apiSpecification';
 
 const routes = express.Router();
 routes.get('/api', (req, res) => {
-  res.send(apiSpec);
+  res.send(apiSpecification);
 });
 
 routes.use('/api/image', image);

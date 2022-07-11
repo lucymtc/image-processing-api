@@ -1,4 +1,4 @@
-const apiSpec = {
+const apiSpecification = {
   routes: [
     {
       '/api/image': {
@@ -25,4 +25,4 @@ const apiSpec = {
   ]
 };
 
-export default apiSpec;
+export default apiSpecification;
