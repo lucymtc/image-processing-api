@@ -32,6 +32,7 @@ image.get(
       return;
     });
 
+    console.log(`The image has been resized correclty ${thumbImagePath}`);
     res.sendFile(thumbImagePath);
   }
 );

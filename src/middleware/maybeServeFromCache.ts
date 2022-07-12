@@ -22,6 +22,7 @@ const maybeServeFromCache = (
   const thumbImagePath: string = getThumbImagePath(filename, width, height);
 
   if (fs.existsSync(thumbImagePath)) {
+    console.log(`The image has been served from cache ${thumbImagePath}`);
     res.sendFile(thumbImagePath);
     return;
   }
