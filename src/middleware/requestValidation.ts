@@ -1,16 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
+
 const requestValidation = (req: Request, res: Response, next: NextFunction) => {
   const filename = req.query.filename as string;
   const width = Number(req.query.width) as number;
-  const heigh = Number(req.query.heigh) as number;
+  const height = Number(req.query.height) as number;
 
   if (
     typeof filename === 'undefined' ||
     filename.length === 0 ||
     typeof width === 'undefined' ||
     isNaN(width) ||
-    typeof heigh === 'undefined' ||
-    isNaN(heigh)
+    typeof height === 'undefined' ||
+    isNaN(height)
   ) {
     res
       .status(400)

@@ -1,4 +1,4 @@
-const apiSpecification = {
+const apiSchema = {
   routes: [
     {
       '/api/image': {
@@ -14,8 +14,8 @@ const apiSpecification = {
             type: 'integer',
             required: true
           },
-          heigh: {
-            description: 'End desired heigh for the image to be resized',
+          height: {
+            description: 'End desired height for the image to be resized',
             type: 'integer',
             required: true
           }
@@ -25,4 +25,4 @@ const apiSpecification = {
   ]
 };
 
-export default apiSpecification;
+export default apiSchema;
