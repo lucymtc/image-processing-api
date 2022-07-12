@@ -1,49 +1,39 @@
 import express from 'express';
 import requestValidation from '../middleware/requestValidation';
+import maybeServeFromCache from '../middleware/maybeServeFromCache';
 import imageProcessor from '../modules/imageProcessor';
-import path from 'path';
-import fs from 'fs';
+import { getImagePath, getThumbImagePath } from '../util/getImagePaths';
 
 const image = express.Router();
+const middlewares = [requestValidation, maybeServeFromCache];
 
-image.get('/', requestValidation, async (req, res) => {
-  const { filename, width, height } = req.query;
+image.get(
+  '/',
+  middlewares,
+  async (req: express.Request, res: express.Response) => {
+    const { filename, width, height } = req.query;
 
-  // Check if the original image exists.
-  const imagePath: string = path.resolve(
-    path.dirname(__dirname),
-    `../public/images/${filename}.jpg`
-  );
+    const imagePath: string = getImagePath(filename as string);
+    const thumbImagePath: string = getThumbImagePath(
+      filename as string,
+      Number(width),
+      Number(height)
+    );
 
-  if (!fs.existsSync(imagePath)) {
-    res.status(404).send(`The image does not exist: ${imagePath}`);
-    return;
+    // Process image
+    await imageProcessor(
+      imagePath,
+      thumbImagePath,
+      Number(width),
+      Number(height)
+    ).catch((err) => {
+      console.log(err);
+      res.status(500).send(err);
+      return;
+    });
+
+    res.sendFile(thumbImagePath);
   }
-
-  // Check if the requested image size exists.
-  const processedImagePath: string = path.resolve(
-    path.dirname(__dirname),
-    `../public/thumbs/${filename}-${width}x${height}.jpg`
-  );
-
-  if (fs.existsSync(processedImagePath)) {
-    res.sendFile(processedImagePath);
-    return;
-  }
-
-  // Process image
-  await imageProcessor(
-    imagePath,
-    processedImagePath,
-    Number(width),
-    Number(height)
-  ).catch((err) => {
-    console.log(err);
-    res.status(500).send(err);
-    return;
-  });
-
-  res.sendFile(processedImagePath);
-});
+);
 
 export default image;
