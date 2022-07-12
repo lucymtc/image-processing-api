@@ -12,7 +12,7 @@ image.get('/', requestValidation, async (req, res) => {
   // Check if the original image exists.
   const imagePath: string = path.resolve(
     path.dirname(__dirname),
-    `../images/${filename}.jpg`
+    `../public/images/${filename}.jpg`
   );
 
   if (!fs.existsSync(imagePath)) {
@@ -23,7 +23,7 @@ image.get('/', requestValidation, async (req, res) => {
   // Check if the requested image size exists.
   const processedImagePath: string = path.resolve(
     path.dirname(__dirname),
-    `../processedImages/${filename}-${width}x${height}.jpg`
+    `../public/thumbs/${filename}-${width}x${height}.jpg`
   );
 
   if (fs.existsSync(processedImagePath)) {
@@ -39,7 +39,7 @@ image.get('/', requestValidation, async (req, res) => {
     Number(height)
   ).catch((err) => {
     console.log(err);
-    res.send(err);
+    res.status(500).send(err);
     return;
   });
 
